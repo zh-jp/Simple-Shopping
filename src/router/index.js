@@ -11,6 +11,7 @@ import User from '@/views/layout/user'
 import Category from '@/views/layout/category'
 import Cart from '@/views/layout/cart'
 import store from '@/store'
+import SearchList from '@/views/search/list'
 
 Vue.use(VueRouter)
 const router = new VueRouter({
@@ -31,7 +32,8 @@ const router = new VueRouter({
     { path: '/myOrder', component: MyOrder },
     { path: '/productDetail/:id', component: ProductDetail },
     { path: '/pay', component: Pay },
-    { path: '/search', component: Search }
+    { path: '/search', component: Search },
+    { path: '/searchList', component: SearchList }
   ]
 })
 // 全局前置导航守卫，所有路由真正被访问到均会触发

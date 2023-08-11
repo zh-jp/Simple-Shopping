@@ -14,9 +14,17 @@
         <van-icon name="delete-o" size="16" @click="clear" />
       </div>
       <div class="list">
-        <div v-for="item in history" :key="item" class="list-item" @click="onSearch(item)">{{ item }}</div>
+        <div v-for="item in history" :key="item"
+        class="list-item" @click="onSearch(item)">
+        {{ item }}
+        <div class="delIcon"><van-icon name="cross" @click.stop="deleteItem(item)" /></div>
 
+        <!-- <div v-for="item in history" :key="item">
+            <div class="list-item" @click="onSearch(item)"> {{ item }}</div>
+            <van-icon class="delIcon" name="cross" @click.stop="deleteItem(item)" />
+        </div> -->
       </div>
+    </div>
     </div>
   </div>
 </template>
@@ -43,11 +51,18 @@ export default {
       }
       this.history.unshift(search)
       setHistoryList(this.history)
-      this.$router.push(`/searchlist?search=${search}`)
+      this.$router.push(`/searchList?search=${search}`)
     },
     clear () {
       this.history = []
       setHistoryList(this.history)
+    },
+    deleteItem (item) {
+      const index = this.history.indexOf(item)
+      if (index !== -1) {
+        this.history.splice(index, 1)
+        setHistoryList(this.history)
+      }
     }
   }
 }
@@ -95,6 +110,13 @@ export default {
     white-space: nowrap;
     text-overflow: ellipsis;
     margin-bottom: 10px;
+  }
+  .delIcon {
+    display: inline-block;
+    justify-content: end;
+    color: #696969;
+    font-size: 15px;
+    line-height: 15px;
   }
 }
 </style>
