@@ -18,11 +18,6 @@
         class="list-item" @click="onSearch(item)">
         {{ item }}
         <div class="delIcon"><van-icon name="cross" @click.stop="deleteItem(item)" /></div>
-
-        <!-- <div v-for="item in history" :key="item">
-            <div class="list-item" @click="onSearch(item)"> {{ item }}</div>
-            <van-icon class="delIcon" name="cross" @click.stop="deleteItem(item)" />
-        </div> -->
       </div>
     </div>
     </div>
@@ -75,10 +70,6 @@ export default {
     padding: 0 10px;
     border-radius: 0 5px 0 5px;
     margin-right: 10px;
-  }
-
-  ::v-deep .van-icon-arrow-left {
-    color: black;
   }
 
   .title {

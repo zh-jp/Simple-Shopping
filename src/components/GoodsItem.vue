@@ -1,7 +1,7 @@
 <template>
  <div v-if="item.goods_id"
     class="goods-item"
-    @click="$router.push(`/prodetail/${item.goods_id}`)">
+    @click="$router.push(`/productDetail/${item.goods_id}`)">
     <div class="left">
         <img class="pic" :src="item.goods_image" alt="" />
     </div>

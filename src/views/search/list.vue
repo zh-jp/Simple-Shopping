@@ -67,10 +67,6 @@ export default {
 .search {
   padding-top: 45px;
 
-  ::v-deep .van-icon-arrow-left {
-    color: black;
-  }
-
   .tool {
     font-size: 24px;
     height: 40px;
