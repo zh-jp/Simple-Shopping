@@ -65,14 +65,47 @@
         <van-icon name="shopping-cart-o" />
         <span>购物车</span>
       </div>
-      <div class="btn-add" @click="addFn" >加入购物车</div>
+      <div class="btn-add" @click="addFn">加入购物车</div>
       <div class="btn-buy" @click="buyNow">立刻购买</div>
     </div>
+
+    <!-- 点击加入购物车 / 立即购买的公共弹窗 -->
+    <van-action-sheet v-model="showPanel" :title="mode === 'cart' ? '加入购入车' : '立即购买'">
+      <div class="product">
+        <div class="product-title">
+          <div class="left"><img :src="detail.goods_image" alt=""></div>
+          <div class="right">
+            <div class="price">
+              <span>￥</span>
+              <span class="nowPrice">{{ detail.goods_price_min }}</span>
+            </div>
+            <div class="count">
+              <span>库存</span>
+              <span>{{ detail.stock_total }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="num-box">
+          <span>数量</span>
+          <CountBox v-model="addCount" />
+          <!-- 使用v-model是因为其本质上是 :value与 @input的结合 -->
+        </div>
+
+        <!-- 有库存才显示提交按钮 -->
+        <div class="showBtn" v-if="detail.stock_total > 0">
+          <div class="btn" v-if="mode === 'cart'" @click="addCart">加入购物车</div>
+          <div class="btn now" v-else-if="mode === 'buyNow'" @click="goBuyNow">立刻购买</div>
+        </div>
+        <div class="btn-none" v-else>该商品已抢完</div>
+      </div>
+    </van-action-sheet>
+
   </div>
 </template>
 <script>
 import { getProductDetail, getProductComments } from '@/api/product'
 import defaultImg from '@/assets/default-avatar.png'
+import CountBox from '@/components/CountBox.vue'
 
 export default {
   name: 'productDetailPage',
@@ -85,9 +118,12 @@ export default {
       defaultImg,
       commentList: [],
       mode: 'cart', // 标记弹窗状态
-      showPanel: false // 标记弹窗状态
-
+      showPanel: false, // 标记弹窗状态
+      addCount: 1 // 购物数字框绑定的数据
     }
+  },
+  components: {
+    CountBox
   },
   computed: {
     goodsId () {
@@ -113,6 +149,13 @@ export default {
       this.showPanel = true
     },
     buyNow () {
+      this.mode = 'buyNow'
+      this.showPanel = true
+    },
+    addCart () {
+
+    },
+    goBuyNow () {
 
     }
   },
@@ -261,16 +304,91 @@ export default {
     justify-content: space-evenly;
     align-items: center;
 
-    .icon-home, .icon-cart {
+    .icon-home,
+    .icon-cart {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       font-size: 14px;
+
       .van-icon {
         font-size: 24px;
       }
     }
 
+    .btn-add,
+    .btn-buy {
+      height: 36px;
+      line-height: 36px;
+      width: 120px;
+      border-radius: 18px;
+      background-color: #ffa900;
+      text-align: center;
+      color: #fff;
+      font-size: 14px;
+    }
+
+    .btn-buy {
+      background-color: #fe5630;
+    }
+
+  }
+
+  .product {
+    .product-title {
+      display: flex;
+
+      .left {
+        width: 90px;
+        height: 90px;
+      }
+
+      .right {
+        flex: 1;
+        padding: 10px;
+
+        .price {
+          font-size: 14px;
+          color: #fe560a;
+
+          .nowPrice {
+            font-size: 24px;
+            margin: 0 5px;
+          }
+        }
+
+        .count {
+          font-size: 14px;
+          color: #999;
+        }
+      }
+    }
+
+    .num-box {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+      align-items: center;
+    }
+
+    .btn,
+    .btn-none {
+      height: 40px;
+      line-height: 40px;
+      margin: 20px;
+      border-radius: 20px;
+      text-align: center;
+      color: rgb(255, 255, 255);
+      background-color: orange;
+    }
+
+    .btn.now {
+      background-color: #fe5630;
+    }
+
+    .btn-none {
+      background-color: #ccc;
+    }
   }
 }</style>
