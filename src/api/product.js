@@ -24,7 +24,7 @@ export const getProductDetail = (goodsId) => {
 
 // 获取商品评价
 export const getProductComments = (goodsId, limit) => {
-  return request.get('/comments/listRows', {
+  return request.get('/comment/listRows', {
     params: {
       goodsId,
       limit

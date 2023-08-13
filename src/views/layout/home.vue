@@ -29,7 +29,7 @@
     <!-- 猜你喜欢 -->
     <div class="guess">
       <p class="guess-title">————猜 你 喜 欢————</p>
-      <div class="guess-list">
+      <div class="goods-list">
         <GoodsItem v-for="item in proList" :key="item.goods_id"
         :item="item" />
       </div>
@@ -100,7 +100,7 @@ export default {
   color: #8B0000;
 }
 .goods-list {
-  background-color: #f6f682;
+  background-color: #fff;
 }
 }
 
