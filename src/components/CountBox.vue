@@ -24,7 +24,7 @@ export default {
       this.$emit('input', this.value + 1)
     },
     handleChange (e) {
-      const num = +e.target.value
+      const num = Math.round(+e.target.value)
       if (isNaN(num) || num < 1) {
         e.target.value = this.value
         return

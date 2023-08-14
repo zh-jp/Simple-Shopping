@@ -62,7 +62,8 @@
         <span>首页</span>
       </div>
       <div class="icon-cart" @click="$router.push('/cart')">
-        <van-icon name="shopping-cart-o" />
+        <!-- badge表示角标 -->
+        <van-icon name="shopping-cart-o" :badge="cartTotal > 0 ? cartTotal: null" />
         <span>购物车</span>
       </div>
       <div class="btn-add" @click="addFn">加入购物车</div>
@@ -93,10 +94,10 @@
 
         <!-- 有库存才显示提交按钮 -->
         <div class="showBtn" v-if="detail.stock_total > 0">
-          <div class="btn" v-if="mode === 'cart'" @click="addCart">加入购物车</div>
+          <div class="btn" v-if="mode === 'cart'" @click="addToCart">加入购物车</div>
           <div class="btn now" v-else-if="mode === 'buyNow'" @click="goBuyNow">立刻购买</div>
         </div>
-        <div class="btn-none" v-else>该商品已抢完</div>
+        <div class="btn-none" v-if="detail.stock_total < 1">该商品已抢完</div>
       </div>
     </van-action-sheet>
 
@@ -106,6 +107,7 @@
 import { getProductDetail, getProductComments } from '@/api/product'
 import defaultImg from '@/assets/default-avatar.png'
 import CountBox from '@/components/CountBox.vue'
+import { addCart } from '@/api/cart'
 
 export default {
   name: 'productDetailPage',
@@ -119,7 +121,8 @@ export default {
       commentList: [],
       mode: 'cart', // 标记弹窗状态
       showPanel: false, // 标记弹窗状态
-      addCount: 1 // 购物数字框绑定的数据
+      addCount: 1, // 购物数字框绑定的数据
+      cartTotal: 0 // 购物车商品总数，用于渲染角标
     }
   },
   components: {
@@ -152,8 +155,28 @@ export default {
       this.mode = 'buyNow'
       this.showPanel = true
     },
-    addCart () {
-
+    async addToCart () {
+      if (!this.$store.getters.token) {
+        this.$dialog.confirm({
+          title: '温馨提示',
+          message: '使用该功能前，请先登录！',
+          confirmButtonText: '前往登录',
+          cancelButtonText: '再随便逛逛'
+        }).then(() => {
+          // this.$route.fullPath（会包含查询参数）
+          this.$router.push({
+            path: '/login',
+            query: {
+              backUrl: this.$route.fullPath
+            }
+          })
+        }).catch(() => {})
+        return
+      }
+      const { data: { cartTotal } } = await addCart(this.goodsId, this.addCount, this.detail.skuList[0].goods_sku_id)
+      this.cartTotal = cartTotal
+      this.showPanel = false
+      this.$toast('加入购物车成功！')
     },
     goBuyNow () {
 
