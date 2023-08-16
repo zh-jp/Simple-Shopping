@@ -107,7 +107,7 @@
 import { getProductDetail, getProductComments } from '@/api/product'
 import defaultImg from '@/assets/default-avatar.png'
 import CountBox from '@/components/CountBox.vue'
-import { addCart } from '@/api/cart'
+import { addCart, getCartTotal } from '@/api/cart'
 
 export default {
   name: 'productDetailPage',
@@ -182,9 +182,11 @@ export default {
 
     }
   },
-  created () {
+  async created () {
     this.getDetail()
     this.getComment()
+    const { data: { cartTotal } } = await getCartTotal()
+    this.cartTotal = cartTotal
   }
 }
 </script>
