@@ -19,6 +19,7 @@
             <span class="tit text-ellipsis-2">{{ item.goods.goods_name }}</span>
             <span class="bottom">
               <div class="price">￥<span>{{ item.goods.goods_price_min }}</span></div>
+              <!-- 既保留形参，又调用事件触发函数 -->
               <CountBox :value="item.goods_num" @input="value => changeCount(item.goods_id, value, item.goods_sku_id)" />
             </span>
           </div>
@@ -36,7 +37,7 @@
             <span>￥<i class="totalCount">{{ totalCount }}</i></span>
           </div>
           <div v-if="!isEdit" class="goPay" :class="{ disable: totalSelect === 0 }" @click="goPay">
-            结算</div>
+            结算({{ cartTotal }})</div>
           <div v-else @click="handleDel" class="delete" :class="{ disable: totalCount === 0 }">删除</div>
         </div>
       </div>
@@ -233,7 +234,7 @@ export default {
       .goPay,
       .delete {
         margin-right: 12px;
-        min-width: 80px;
+        min-width: 100px;
         height: 36px;
         line-height: 36px;
         text-align: center;
