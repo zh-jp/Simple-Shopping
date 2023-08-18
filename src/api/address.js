@@ -15,6 +15,6 @@ export const getDetail = (addressId) => {
 }
 
 // 获取收货地址列表
-export const getList = () => {
+export const getAddressList = () => {
   return request.get('/address/list')
 }
