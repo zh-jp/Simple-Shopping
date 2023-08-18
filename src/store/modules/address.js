@@ -1,0 +1,49 @@
+import { getDefaultId, getDetail, getAddressList } from '@/api/address'
+
+export default {
+  namespaced: true,
+  state () {
+    return {
+      addressList: [],
+      defaultId: '',
+      defaultAddress: {}
+    }
+  },
+  mutations: {
+    setDefaultAddress (state, address) {
+      state.defaultId = address.address_id
+      state.defaultAddress = address
+    },
+    setAddressList (state, newList) {
+      state.addressList = newList
+    }
+  },
+  actions: {
+    async getDefaultAddress (context) {
+      const { data: { addressId } } = await getDefaultId()
+      const { data: { detail } } = await getDetail(addressId)
+      context.commit('setDefaultAddress', detail)
+    },
+    async getAddressList (context) {
+      const { data: { list } } = await getAddressList()
+      // 为列表里每个元素增加 isChecked 属性表示是否为默认地址
+      const length = list.length
+      for (let i = 0; i < length; i++) {
+        list[i].isChecked = false
+        if (list[i].address_id === context.state.defaultId) {
+          list[i].isChecked = true
+        }
+      }
+      context.commit('setAddressList', list)
+    }
+  },
+  getters: {
+    longAddress (state) {
+      console.log('hello')
+      return function (address) {
+        const region = address.region
+        return region.province + region.city + region.region + address.detail
+      }
+    }
+  }
+}

@@ -12,6 +12,7 @@ import Category from '@/views/layout/category'
 import Cart from '@/views/layout/cart'
 import store from '@/store'
 import SearchList from '@/views/search/list'
+import Address from '@/views/address'
 
 Vue.use(VueRouter)
 const router = new VueRouter({
@@ -33,7 +34,8 @@ const router = new VueRouter({
     { path: '/productDetail/:id', component: ProductDetail },
     { path: '/pay', component: Pay },
     { path: '/search', component: Search },
-    { path: '/searchList', component: SearchList }
+    { path: '/searchList', component: SearchList },
+    { path: '/address', component: Address }
   ]
 })
 // 全局前置导航守卫，所有路由真正被访问到均会触发
@@ -43,7 +45,7 @@ const router = new VueRouter({
 // next(路径)：进行拦截
 
 // 定义以一个数组，专门存放所有需要权限访问的路径
-const authUrls = ['/pay', '/myOrder']
+const authUrls = ['/pay', '/myOrder', '/address']
 router.beforeEach((to, from, next) => {
   // 看to.path是否再authUrls中出现
   if (!authUrls.includes(to.path)) {
