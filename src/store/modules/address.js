@@ -1,4 +1,4 @@
-import { getDefaultId, getDetail, getAddressList } from '@/api/address'
+import { getDefaultId, getDetail, getAddressList, setDefaultId } from '@/api/address'
 
 export default {
   namespaced: true,
@@ -35,11 +35,15 @@ export default {
         }
       }
       context.commit('setAddressList', list)
+    },
+    async setDefaultAddress (context, { address }) {
+      await setDefaultId(address.address_id)
+      context.commit('setDefaultAddress', address)
+      context.dispatch('getAddressList')
     }
   },
   getters: {
     longAddress (state) {
-      console.log('hello')
       return function (address) {
         const region = address.region
         return region.province + region.city + region.region + address.detail
