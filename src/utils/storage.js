@@ -2,6 +2,7 @@
 const INFO_KEY = 'shopping_info'
 const HISTORY_KEY = 'shopping_search_history'
 const CATEGORY_KEY = 'category_history'
+const REGION_KEY = 'region_history'
 
 // 保存、设置、移除用户token
 export const getInfo = () => {
@@ -28,7 +29,7 @@ export const setHistoryList = (arr) => {
 }
 
 // 保存、设置、删除分类页数据
-export const getCategoryList = (arr) => {
+export const getCategoryList = () => {
   const result = localStorage.getItem(CATEGORY_KEY)
   return result ? JSON.parse(result) : []
 }
@@ -39,4 +40,18 @@ export const setCategoryList = (arr) => {
 
 export const removeCategoryList = () => {
   localStorage.removeItem(CATEGORY_KEY)
+}
+
+// 保存、设置、删除地区信息
+export const getRegionList = () => {
+  const result = localStorage.getItem(REGION_KEY)
+  return result ? JSON.parse(result) : []
+}
+
+export const setRegionList = (arr) => {
+  localStorage.setItem(REGION_KEY, JSON.stringify(arr))
+}
+
+export const removeRegionList = () => {
+  localStorage.removeItem(REGION_KEY)
 }

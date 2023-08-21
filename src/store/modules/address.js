@@ -1,4 +1,4 @@
-import { getDefaultId, getDetail, getAddressList, setDefaultId } from '@/api/address'
+import { getDefaultId, getDetail, getAddressList, setDefaultId, getRegionTree } from '@/api/address'
 
 export default {
   namespaced: true,
@@ -6,7 +6,8 @@ export default {
     return {
       addressList: [],
       defaultId: '',
-      defaultAddress: {}
+      defaultAddress: {},
+      regionTree: {}
     }
   },
   mutations: {
@@ -16,6 +17,9 @@ export default {
     },
     setAddressList (state, newList) {
       state.addressList = newList
+    },
+    setRegionTree (state, regionTree) {
+      state.regionTree = regionTree
     }
   },
   actions: {
@@ -40,6 +44,10 @@ export default {
       await setDefaultId(address.address_id)
       context.commit('setDefaultAddress', address)
       context.dispatch('getAddressList')
+    },
+    async getRegionTree (context) {
+      const { data: { list } } = await getRegionTree()
+      context.commit('setRegionTree', list)
     }
   },
   getters: {

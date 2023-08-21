@@ -14,8 +14,8 @@
       </div>
 
     </div>
-
     <div class="btn" @click="addAddress">添加收货地址</div>
+
   </div>
 </template>
 <script>
@@ -25,6 +25,7 @@ export default {
   name: 'addressPage',
   data () {
     return {
+
       addressList: [
         {
           address_id: 10012,
@@ -59,22 +60,25 @@ export default {
           }
         }
       ]
+
     }
   },
   computed: {
     ...mapGetters('address', ['longAddress'])
 
   },
+
   methods: {
-    ...mapActions('address', ['setDefaultAddress']),
+    ...mapActions('address', ['setDefaultAddress', 'getRegionTree']),
     toggleDefault (address) {
       if (address.isChecked) {
         return
       }
-      console.log('methods:', address)
       this.setDefaultAddress({ address })
     },
-    addAddress () {}
+    addAddress () {
+      this.$router.push('/addAddress')
+    }
 
   }
 }
@@ -97,11 +101,13 @@ export default {
   }
 
   .mid {}
+
   .footer {
     display: flex;
     justify-content: space-between;
     position: relative;
     bottom: -20px;
+
     .edit {
       color: #fff;
       background-color: #fe5630;
@@ -127,4 +133,5 @@ export default {
   color: rgb(255, 255, 255);
   background-color: #fe5630;
 }
+
 </style>

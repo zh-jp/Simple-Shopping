@@ -32,3 +32,8 @@ export const addAddress = (form) => {
     form
   })
 }
+
+// 获取省市区编号
+export const getRegionTree = () => {
+  return request.get('/region/tree')
+}

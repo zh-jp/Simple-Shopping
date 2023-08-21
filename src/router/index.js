@@ -13,6 +13,7 @@ import Cart from '@/views/layout/cart'
 import store from '@/store'
 import SearchList from '@/views/search/list'
 import Address from '@/views/address'
+import AddAddress from '@/views/address/add'
 
 Vue.use(VueRouter)
 const router = new VueRouter({
@@ -35,7 +36,8 @@ const router = new VueRouter({
     { path: '/pay', component: Pay },
     { path: '/search', component: Search },
     { path: '/searchList', component: SearchList },
-    { path: '/address', component: Address }
+    { path: '/address', component: Address },
+    { path: '/addAddress', component: AddAddress }
   ]
 })
 // 全局前置导航守卫，所有路由真正被访问到均会触发
