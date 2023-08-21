@@ -27,9 +27,14 @@ export const getAddressList = () => {
 }
 
 // 添加收货地址
-export const addAddress = (form) => {
+export const addAddress = (name, phone, region, detail) => {
   return request.post('/address/add', {
-    form
+    form: {
+      name,
+      phone,
+      region,
+      detail
+    }
   })
 }
 

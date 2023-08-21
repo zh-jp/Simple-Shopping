@@ -19,57 +19,24 @@
   </div>
 </template>
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions, mapState } from 'vuex'
 
 export default {
   name: 'addressPage',
   data () {
     return {
-
-      addressList: [
-        {
-          address_id: 10012,
-          name: '张小',
-          phone: '18999292929',
-          province_id: 782,
-          city_id: 783,
-          region_id: 785,
-          detail: '北京路1号楼8888室',
-          user_id: 10003,
-          isChecked: true,
-          region: {
-            province: '上海',
-            city: '上海市',
-            region: '徐汇区'
-          }
-        },
-        {
-          address_id: 1001287,
-          name: '王二',
-          phone: '18999292929',
-          province_id: 782,
-          city_id: 783,
-          region_id: 785,
-          detail: '北京路1号楼8888室',
-          user_id: 10003,
-          isChecked: false,
-          region: {
-            province: '上海',
-            city: '上海市',
-            region: '徐汇区'
-          }
-        }
-      ]
-
     }
   },
   computed: {
-    ...mapGetters('address', ['longAddress'])
+    ...mapGetters('address', ['longAddress']),
+    ...mapState('address', ['addressList'])
 
   },
-
+  created () {
+    this.getAddressList()
+  },
   methods: {
-    ...mapActions('address', ['setDefaultAddress', 'getRegionTree']),
+    ...mapActions('address', ['setDefaultAddress', 'getRegionTree', 'getAddressList']),
     toggleDefault (address) {
       if (address.isChecked) {
         return
@@ -99,8 +66,6 @@ export default {
     font-size: 18px;
     justify-content: space-between;
   }
-
-  .mid {}
 
   .footer {
     display: flex;

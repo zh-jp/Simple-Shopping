@@ -36,12 +36,15 @@ export default {
     ...mapState('address', ['regionTree'])
   },
   methods: {
-    ...mapActions('address', ['getRegionTree']),
+    ...mapActions('address', ['getRegionTree', 'addNewAddress']),
     onFinish ({ selectedOptions }) {
       this.showPanel = false
-
       selectedOptions.map((item) => this.newRegion.push({ value: item.value, label: item.text }))
-      console.log(this.newRegion)
+      this.fieldValue = ''
+      const length = this.newRegion.length
+      for (let i = 0; i < length; i++) {
+        this.fieldValue += this.newRegion[i].label + ' '
+      }
     },
     createOption () {
       for (const province in this.regionTree) {
@@ -73,8 +76,31 @@ export default {
     editRegion () {
       this.showPanel = true
     },
+    valueInfo () {
+      if (!this.newName) {
+        this.$toast('请输入姓名')
+        return false
+      }
+      if (!/^1[3-9]\d{9}$/.test(this.newPhone)) {
+        this.$toast('请输入正确的手机号')
+        return false
+      }
+      if (!this.fieldValue) {
+        this.$toast('请选择收货地区')
+        return false
+      }
+      if (!this.newDetail) {
+        this.$toast('请输入正确的详细地址')
+        return false
+      }
+      return true
+    },
     confirmAdd () {
-
+      if (this.valueInfo()) {
+        const obj = { name: this.newName, phone: this.newPhone, region: this.newRegion, detail: this.newDetail }
+        this.addNewAddress(obj)
+        this.$toast('地址添加成功')
+      }
     }
   },
   created () {
@@ -91,13 +117,14 @@ export default {
 .addAddress {
     padding-top: 46px;
 }
+
 .btn-confirm {
-  height: 40px;
-  line-height: 40px;
-  margin: 20px;
-  border-radius: 20px;
-  text-align: center;
-  color: rgb(255, 255, 255);
-  background-color: orange;
+    height: 40px;
+    line-height: 40px;
+    margin: 20px;
+    border-radius: 20px;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    background-color: orange;
 }
 </style>
