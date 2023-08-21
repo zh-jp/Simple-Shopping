@@ -1,7 +1,7 @@
 <template>
   <div class="address">
     <van-nav-bar title="收货地址" fixed left-arrow @click-left="$router.go(-1)" />
-    <div class="address-item" v-for="item in addressList" :key="item.address_id">
+    <div class="address-item" v-for="item in addressList" :key="item.address_id" >
       <div class="top">
         <span><van-icon name="smile-o" />姓名：{{ item.name }}</span>
         <span><van-icon name="phone-o" />手机：{{ item.phone }}</span>
@@ -9,8 +9,8 @@
       <hr>
       <div class="mid">{{ longAddress(item) }}</div>
       <div class="footer">
-        <van-checkbox :value="item.isChecked" @click="toggleDefault(item)">默认地址</van-checkbox>
-        <div class="edit">编辑地址</div>
+        <van-checkbox :value="item.isChecked" @click.stop="toggleDefault(item)">默认地址</van-checkbox>
+        <div class="edit" @click="editAddress(item.address_id)">编辑地址</div>
       </div>
 
     </div>
@@ -25,6 +25,7 @@ export default {
   name: 'addressPage',
   data () {
     return {
+      myAddress: []
     }
   },
   computed: {
@@ -36,17 +37,20 @@ export default {
     this.getAddressList()
   },
   methods: {
-    ...mapActions('address', ['setDefaultAddress', 'getRegionTree', 'getAddressList']),
+    ...mapActions('address', ['getRegionTree', 'getAddressList', 'setDefaultIdAction']),
     toggleDefault (address) {
       if (address.isChecked) {
         return
       }
-      this.setDefaultAddress({ address })
+      this.setDefaultIdAction(address.address_id)
+      this.getAddressList()
     },
     addAddress () {
       this.$router.push('/addAddress')
+    },
+    editAddress (id) {
+      this.$router.push(`/editAddress/${id}`)
     }
-
   }
 }
 </script>
