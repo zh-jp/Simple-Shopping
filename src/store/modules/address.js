@@ -1,4 +1,4 @@
-import { getDefaultId, getAddressList, setDefaultId, getRegionTree, addAddress } from '@/api/address'
+import { getDefaultId, getAddressList, setDefaultId, getRegionTree, addAddress, getDetail } from '@/api/address'
 
 export default {
   namespaced: true,
@@ -52,6 +52,10 @@ export default {
     async addNewAddress (context, { name, phone, region, detail }) {
       await addAddress(name, phone, region, detail)
       context.dispatch('getAddressList')
+    },
+    async getAddressDetail (context, id) {
+      const { data: { detail } } = await getDetail(id)
+      return detail
     }
   },
   getters: {

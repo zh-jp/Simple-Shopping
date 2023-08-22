@@ -42,3 +42,16 @@ export const addAddress = (name, phone, region, detail) => {
 export const getRegionTree = () => {
   return request.get('/region/tree')
 }
+
+// 编辑收货地址
+export const editAddress = (addressId, name, phone, region, detail) => {
+  return request.post('/address/edit', {
+    addressId,
+    form: {
+      name,
+      phone,
+      region,
+      detail
+    }
+  })
+}

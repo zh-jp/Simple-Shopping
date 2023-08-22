@@ -49,23 +49,15 @@ export default {
     createOption () {
       for (const province in this.regionTree) {
         const element = this.regionTree[province]
-        const obj = {}
-        obj.text = element.name
-        obj.value = element.id
-        obj.children = []
+        const obj = { text: element.name, value: element.id, children: [] }
         const cities = element.city
         for (const city in cities) {
-          const element2 = cities[city]
-          const obj2 = {}
-          obj2.text = element2.name
-          obj2.value = element2.id
-          obj2.children = []
-          const regions = element2.region
+          const element = cities[city]
+          const obj2 = { text: element.name, value: element.id, children: [] }
+          const regions = element.region
           for (const region in regions) {
-            const element3 = regions[region]
-            const obj3 = {}
-            obj3.text = element3.name
-            obj3.value = element3.id
+            const element = regions[region]
+            const obj3 = { text: element.name, value: element.id }
             obj2.children.push(obj3)
           }
           obj.children.push(obj2)
@@ -98,8 +90,8 @@ export default {
     confirmAdd () {
       if (this.valueInfo()) {
         const obj = { name: this.newName, phone: this.newPhone, region: this.newRegion, detail: this.newDetail }
-        this.addNewAddress(obj)
-        this.$toast('地址添加成功')
+        this.addNewAddress(obj).then((result) => this.$toast('地址添加成功'))
+        this.$router.go(-1)
       }
     }
   },

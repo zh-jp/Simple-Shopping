@@ -3,6 +3,7 @@ const INFO_KEY = 'shopping_info'
 const HISTORY_KEY = 'shopping_search_history'
 const CATEGORY_KEY = 'category_history'
 const REGION_KEY = 'region_history'
+const REGION_DIC = 'region_directory'
 
 // 保存、设置、移除用户token
 export const getInfo = () => {
@@ -54,4 +55,18 @@ export const setRegionList = (arr) => {
 
 export const removeRegionList = () => {
   localStorage.removeItem(REGION_KEY)
+}
+
+// 保存、设置、删除地区数字字典
+export const getRegionDic = () => {
+  const result = localStorage.getItem(REGION_DIC)
+  return result ? JSON.parse(result) : {}
+}
+
+export const setRegionDic = (obj) => {
+  localStorage.setItem(REGION_DIC, JSON.stringify(obj))
+}
+
+export const removeItem = () => {
+  localStorage.removeItem(REGION_DIC)
 }

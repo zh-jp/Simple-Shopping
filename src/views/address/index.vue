@@ -57,6 +57,7 @@ export default {
 <style lang="less" scoped>
 .address {
   padding-top: 46px;
+  padding-bottom: 50px;
 }
 
 .address-item {
