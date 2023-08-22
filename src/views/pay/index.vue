@@ -13,7 +13,7 @@
         <div class="info-address">{{ longAddress }}</div>
       </div>
       <div class="info" v-else>请选择配送地址</div>
-      <div class="right-icon"><van-icon name="arrow" /></div>
+      <div class="right-icon" @click="$router.push('/address')"><van-icon name="arrow" /></div>
     </div>
 
     <!-- 订单明细 -->
@@ -35,16 +35,6 @@ export default {
     }
   },
   methods: {
-    // async setAddress (addressId) {
-    //   const { data: { detail } } = await getDetail(addressId)
-    //   this.selectedAddress = detail
-    // },
-    // async defaultAddress () {
-    //   const { addressId } = await getDefaultId()
-    //   if (addressId) {
-    //     this.setAddress(addressId)
-    //   }
-    // },
     async getAddressList () {
       const { data: { list } } = await getAddressList()
       this.addressList = list

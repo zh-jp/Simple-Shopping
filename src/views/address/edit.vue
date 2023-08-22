@@ -1,6 +1,6 @@
 <template>
     <div class="editAddress">
-        <van-nav-bar title="新增收货地址" fixed left-arrow @click-left="$router.go(-1)" />
+        <van-nav-bar title="编辑收货地址" fixed left-arrow @click-left="$router.go(-1)" />
         <van-field v-model.trim="oldAddress.name" label="姓名" placeholder="请输入姓名" />
         <van-field v-model="oldAddress.phone" label="手机" placeholder="请输入手机" />
         <van-field v-model="fieldValue" is-link readonly label="地区" placeholder="请选择所在地区" @click="editRegion" />
@@ -10,12 +10,13 @@
         </van-popup>
         <van-field v-model="oldAddress.detail" label="详细地址" placeholder="详细地址" />
         <div class="btn-confirm" @click="confirmEdit">确定修改</div>
+        <div class="btn-delete" @click="deleteAddress">删除地址</div>
     </div>
 </template>
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex'
 import { getRegionList, setRegionList, getRegionDic, setRegionDic } from '@/utils/storage'
-import { editAddress } from '@/api/address'
+import { editAddress, deleteAddress } from '@/api/address'
 
 export default {
   name: 'addressEditPage',
@@ -74,6 +75,11 @@ export default {
         this.fieldValue += newRegion[i].label + ' '
       }
       this.oldAddress.region = newRegion
+    },
+    async deleteAddress () {
+      await deleteAddress(this.addressId)
+      this.$toast('地址删除成功')
+      this.$router.go(-1)
     }
   },
   async created () {
@@ -108,7 +114,7 @@ export default {
 .editAddress {
     padding-top: 46px;
 }
-.btn-confirm {
+.btn-confirm, .btn-delete {
     height: 40px;
     line-height: 40px;
     margin: 20px;
@@ -116,5 +122,8 @@ export default {
     text-align: center;
     color: rgb(255, 255, 255);
     background-color: orange;
+}
+.btn-delete {
+  background-color: #3f3f3f;
 }
 </style>

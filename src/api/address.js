@@ -55,3 +55,10 @@ export const editAddress = (addressId, name, phone, region, detail) => {
     }
   })
 }
+
+// 删除收货地址
+export const deleteAddress = (addressId) => {
+  return request.post('/address/remove', {
+    addressId
+  })
+}
