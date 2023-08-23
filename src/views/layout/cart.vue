@@ -70,7 +70,7 @@ export default {
       return false
     },
     ...mapState('cart', ['cartList']),
-    ...mapGetters('cart', ['cartTotal', 'isAllChecked', 'totalCount', 'totalSelect'])
+    ...mapGetters('cart', ['cartTotal', 'isAllChecked', 'totalCount', 'totalSelect', 'cartSelect'])
   },
   created () {
     if (this.isLogin) {
@@ -97,7 +97,8 @@ export default {
         this.$router.push({
           path: '/pay',
           query: {
-            mode: 'cart'
+            mode: 'cart',
+            cartIds: this.cartSelect.map(item => item.id).join(',')
           }
         })
       }
