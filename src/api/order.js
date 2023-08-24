@@ -15,7 +15,7 @@ export const checkOrder = (mode, obj) => {
 
 // 提交订单
 export const submitOrder = (mode, obj) => {
-  return request.post('/check/submit', {
+  return request.post('/checkout/submit', {
     mode,
     delivery: 10,
     couponId: 10,

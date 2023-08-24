@@ -179,7 +179,18 @@ export default {
       this.$toast('加入购物车成功！')
     },
     goBuyNow () {
-
+      if (!this.$store.getters.token) {
+        return
+      }
+      this.$router.push({
+        path: '/pay',
+        query: {
+          mode: 'buyNow',
+          goodsId: this.goodsId,
+          goodsSkuId: this.detail.skuList[0].goods_sku_id,
+          goodsNum: this.addCount
+        }
+      })
     }
   },
   async created () {

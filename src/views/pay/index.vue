@@ -97,7 +97,6 @@ export default {
       this.addressList = list
     },
     async getOrderList () {
-      console.log('arrive "getOrderList"')
       // 购物车结算
       if (this.mode === 'cart') {
         const { data: { order, personal } } = await checkOrder(this.mode, {
@@ -114,7 +113,6 @@ export default {
         this.order = order
         this.personal = personal
       }
-      console.log(this.order)
     },
     async submitOrder () {
       if (this.mode === 'cart') {
@@ -130,7 +128,7 @@ export default {
         })
       }
       this.$toast.success('成功')
-      this.$toast.replace('/myOrder')
+      this.$router.replace('/myOrder')
     }
   },
   async created () {
