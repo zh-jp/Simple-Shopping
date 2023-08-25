@@ -108,9 +108,11 @@ import { getProductDetail, getProductComments } from '@/api/product'
 import defaultImg from '@/assets/default-avatar.png'
 import CountBox from '@/components/CountBox.vue'
 import { addCart, getCartTotal } from '@/api/cart'
+import loginConfirm from '@/mixins/loginConfirm'
 
 export default {
   name: 'productDetailPage',
+  mixins: [loginConfirm],
   data () {
     return {
       detail: [],
@@ -156,21 +158,7 @@ export default {
       this.showPanel = true
     },
     async addToCart () {
-      if (!this.$store.getters.token) {
-        this.$dialog.confirm({
-          title: '温馨提示',
-          message: '使用该功能前，请先登录！',
-          confirmButtonText: '前往登录',
-          cancelButtonText: '再随便逛逛'
-        }).then(() => {
-          // this.$route.fullPath（会包含查询参数）
-          this.$router.push({
-            path: '/login',
-            query: {
-              backUrl: this.$route.fullPath
-            }
-          })
-        }).catch(() => {})
+      if (!this.isLogin()) {
         return
       }
       const { data: { cartTotal } } = await addCart(this.goodsId, this.addCount, this.detail.skuList[0].goods_sku_id)
@@ -179,7 +167,7 @@ export default {
       this.$toast('加入购物车成功！')
     },
     goBuyNow () {
-      if (!this.$store.getters.token) {
+      if (!this.isLogin()) {
         return
       }
       this.$router.push({

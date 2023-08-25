@@ -54,21 +54,17 @@
 <script>
 import { mapGetters, mapState } from 'vuex'
 import CountBox from '@/components/CountBox.vue'
+import loginConfirm from '@/mixins/loginConfirm'
 
 export default {
   name: 'cartPage',
+  mixins: [loginConfirm],
   data () {
     return {
       isEdit: false
     }
   },
   computed: {
-    isLogin () {
-      if (this.$store.getters.token) {
-        return true
-      }
-      return false
-    },
     ...mapState('cart', ['cartList']),
     ...mapGetters('cart', ['cartTotal', 'isAllChecked', 'totalCount', 'totalSelect', 'cartSelect'])
   },
