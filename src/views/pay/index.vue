@@ -78,24 +78,20 @@
   </div>
 </template>
 <script>
-import { getAddressList } from '@/api/address'
 import { checkOrder, submitOrder } from '@/api/order'
+import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'payPage',
   data () {
     return {
-      addressList: [],
       order: {},
       personal: {},
       remark: '' // 买家备注留言
     }
   },
   methods: {
-    async getAddressList () {
-      const { data: { list } } = await getAddressList()
-      this.addressList = list
-    },
+    ...mapActions('address', ['getAddressList']),
     async getOrderList () {
       // 购物车结算
       if (this.mode === 'cart') {
@@ -136,11 +132,18 @@ export default {
     this.getOrderList()
   },
   computed: {
+    ...mapState('address', ['addressList']),
     selectedAddress () {
-      if (this.addressList.length < 1) {
-        return JSON.parse('{"region": {"province":"江苏省","city":"南京市", "region":"栖霞区"},"detail": "北京路1号楼8888室", "address_id": "123", "name":"王小明","phone":"15967777777"}')
+      const length = this.addressList.length
+      if (length < 1) {
+        return {}
       }
-      return this.addressList[0] || {}
+      for (let i = 0; i < length; i++) {
+        if (this.addressList[i].isChecked) {
+          return this.addressList[i]
+        }
+      }
+      return this.addressList[0]
     },
     longAddress () {
       const region = this.selectedAddress.region

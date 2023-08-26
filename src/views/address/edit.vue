@@ -90,7 +90,7 @@ export default {
     this.regionOption = getRegionList()
     this.regionDirectory = getRegionDic()
     if (this.regionOption.length === 0 || Object.keys(this.regionDirectory).length === 0) {
-      this.getRegionTree()
+      await this.getRegionTree()
       this.createOption()
       setRegionList(this.regionOption)
       setRegionDic(this.regionDirectory)

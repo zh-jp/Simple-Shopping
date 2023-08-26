@@ -95,10 +95,10 @@ export default {
       }
     }
   },
-  created () {
+  async created () {
     this.regionOption = getRegionList()
     if (this.regionOption.length === 0) {
-      this.getRegionTree()
+      await this.getRegionTree()
       this.createOption()
       setRegionList(this.regionOption)
     }
